@@ -1,19 +1,19 @@
 package org.elasticsearch.index.analysis;
 
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.VietnameseTokenizer;
+import org.apache.lucene.analysis.CocCocTokenizer;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.IndexSettings;
 
-public class VietnameseTokenizerFactory extends AbstractTokenizerFactory {
+public class CocCocTokenizerFactory extends AbstractTokenizerFactory {
 
     private final boolean forTransforming;
 
     private final int tokenizeOption;
 
-    public VietnameseTokenizerFactory(final IndexSettings indexSettings, final Environment environment,
-                                      final String ignored, final Settings settings) {
+    public CocCocTokenizerFactory(final IndexSettings indexSettings, final Environment environment,
+                                  final String ignored, final Settings settings) {
         super(indexSettings, ignored, settings);
         forTransforming = settings.getAsBoolean("for_transforming", Boolean.FALSE);
         tokenizeOption = settings.getAsInt("tokenize_option", 0);
@@ -21,6 +21,6 @@ public class VietnameseTokenizerFactory extends AbstractTokenizerFactory {
 
     @Override
     public Tokenizer create() {
-        return new VietnameseTokenizer(forTransforming, tokenizeOption);
+        return new CocCocTokenizer(forTransforming, tokenizeOption);
     }
 }

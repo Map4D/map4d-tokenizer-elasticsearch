@@ -9,7 +9,7 @@ import java.io.Reader;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class VietnameseTokenizer extends Tokenizer {
+public class CocCocTokenizer extends Tokenizer {
 
     private static final int DEFAULT_BUFFER_SIZE = 1024;
 
@@ -29,7 +29,7 @@ public class VietnameseTokenizer extends Tokenizer {
 
     private Iterator<String> tokens;
 
-    public VietnameseTokenizer(final boolean forTransforming, final int tokenizeOption) {
+    public CocCocTokenizer(final boolean forTransforming, final int tokenizeOption) {
         super();
         this.forTransforming = forTransforming;
         this.tokenizeOption = tokenizeOption;

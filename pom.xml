@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>vn.map4d</groupId>
-    <artifactId>coccoc-tokenizer-elasticsearch</artifactId>
+    <artifactId>coccoc-tokenizer</artifactId>
     <version>6.5.3</version>
     <packaging>jar</packaging>
-    <name>coccoc-tokenizer-elasticsearch</name>
+    <name>coccoc-tokenizer</name>
     <description>Elasticsearch Vietnamese Tokenizer Plugin</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
