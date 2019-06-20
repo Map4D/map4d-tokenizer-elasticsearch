@@ -1,12 +1,14 @@
 package org.apache.lucene.analysis;
 
+import com.coccoc.Token;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.Arrays;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.Iterator;
 
 public class CocCocTokenizer extends Tokenizer {
@@ -23,11 +25,13 @@ public class CocCocTokenizer extends Tokenizer {
 
     private final PositionIncrementAttribute posIncrAtt = addAttribute(PositionIncrementAttribute.class);
 
+    private com.coccoc.Tokenizer tokenizer;
+
     private int offset;
 
     private int skippedPositions;
 
-    private Iterator<String> tokens;
+    private Iterator<Token> tokens;
 
     public CocCocTokenizer(final boolean forTransforming, final int tokenizeOption) {
         super();
@@ -35,13 +39,16 @@ public class CocCocTokenizer extends Tokenizer {
         this.tokenizeOption = tokenizeOption;
         this.offset = 0;
         this.skippedPositions = 0;
+        this.tokenizer = AccessController.
+                doPrivileged((PrivilegedAction<com.coccoc.Tokenizer>) com.coccoc.Tokenizer::getInstance);
     }
 
     @Override
     public boolean incrementToken() throws IOException {
         clearAttributes();
         while (tokens.hasNext()) {
-            final String tokenText = tokens.next();
+            final Token token = tokens.next();
+            final String tokenText = token.getText();
             if (accept(tokenText)) {
                 posIncrAtt.setPositionIncrement(skippedPositions + 1);
                 final int length = tokenText.length();
@@ -85,6 +92,8 @@ public class CocCocTokenizer extends Tokenizer {
         while ((numCharsRead = input.read(buffer, 0, buffer.length)) != -1) {
             sentence.append(buffer, 0, numCharsRead);
         }
-        tokens = Arrays.asList(sentence.toString().split("\\s+")).iterator();
+        tokens = AccessController.
+                doPrivileged((PrivilegedAction<Iterator<Token>>) () ->
+                        tokenizer.segment(sentence.toString(), forTransforming, tokenizeOption).iterator());
     }
 }
