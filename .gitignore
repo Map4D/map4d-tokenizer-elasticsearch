@@ -7,3 +7,4 @@
 /.classpath
 /*.ipr
 /*.iws
+build/tokenizer

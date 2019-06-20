@@ -5,6 +5,16 @@
         <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/build/tokenizer/share/tokenizer/dicts</directory>
+            <outputDirectory>/coccoc-tokenizer/dicts</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/build/tokenizer/lib</directory>
+            <outputDirectory>/coccoc-tokenizer</outputDirectory>
+        </fileSet>
+    </fileSets>
     <files>
         <file>
             <source>${project.basedir}/src/main/resources/plugin-descriptor.properties</source>
