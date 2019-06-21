@@ -1,0 +1,11 @@
+{
+  "index": {
+    "analysis": {
+      "analyzer": {
+        "vietnamese_analyzer": {
+          "tokenizer": "coccoc_tokenizer"
+        }
+      }
+    }
+  }
+}

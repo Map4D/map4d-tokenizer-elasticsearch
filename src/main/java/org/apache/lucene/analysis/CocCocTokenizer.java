@@ -44,7 +44,7 @@ public class CocCocTokenizer extends Tokenizer {
     }
 
     @Override
-    public boolean incrementToken() throws IOException {
+    public final boolean incrementToken() throws IOException {
         clearAttributes();
         while (tokens.hasNext()) {
             final Token token = tokens.next();
