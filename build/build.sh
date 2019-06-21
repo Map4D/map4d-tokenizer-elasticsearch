@@ -28,5 +28,5 @@ cd $BUILD_DIRECTORY/..
 # Add coccoc-tokenizer.jar to local repository
 mvn install:install-file -Dfile=$BUILD_DIRECTORY/tokenizer/share/java/coccoc-tokenizer.jar -DgroupId=com.coccoc -DartifactId=coccoc-tokenizer -Dversion=1.0.0 -Dpackaging=jar -DgeneratePom=true
 # Build plugin
-mvn clean install -U
+mvn clean install -U -DskipTests
 cd $BUILD_DIRECTORY
