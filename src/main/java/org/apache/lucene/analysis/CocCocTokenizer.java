@@ -4,6 +4,7 @@ import com.coccoc.Token;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -22,6 +23,8 @@ public class CocCocTokenizer extends Tokenizer {
     private final CharTermAttribute termAtt = addAttribute(CharTermAttribute.class);
 
     private final OffsetAttribute offsetAtt = addAttribute(OffsetAttribute.class);
+
+    private final TypeAttribute typeAtt = addAttribute(TypeAttribute.class);
 
     private final PositionIncrementAttribute posIncrAtt = addAttribute(PositionIncrementAttribute.class);
 
@@ -51,6 +54,12 @@ public class CocCocTokenizer extends Tokenizer {
             final String tokenText = token.getText();
             if (accept(tokenText)) {
                 posIncrAtt.setPositionIncrement(skippedPositions + 1);
+                if (token.getType() ==  Token.Type.NUMBER) {
+                    typeAtt.setType("number");
+                }
+                else {
+                    typeAtt.setType("word");
+                }
                 final int length = tokenText.length();
                 termAtt.copyBuffer(tokenText.toCharArray(), 0, length);
                 offsetAtt.setOffset(correctOffset(offset), offset = correctOffset(offset + length));
