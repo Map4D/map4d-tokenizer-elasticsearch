@@ -14,7 +14,7 @@ public class CocCocTokenizerFactory extends AbstractTokenizerFactory {
 
     public CocCocTokenizerFactory(final IndexSettings indexSettings, final Environment environment,
                                   final String ignored, final Settings settings) {
-        super(indexSettings, ignored, settings);
+        super(indexSettings, settings);
         forTransforming = settings.getAsBoolean("for_transforming", Boolean.FALSE);
         tokenizeOption = settings.getAsInt("tokenize_option", 0);
     }
