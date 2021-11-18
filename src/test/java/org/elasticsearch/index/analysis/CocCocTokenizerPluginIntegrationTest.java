@@ -1,16 +1,11 @@
 package org.elasticsearch.index.analysis;
 
 import org.apache.lucene.analysis.CocCocTokenizer;
-import org.elasticsearch.Version;
-import org.elasticsearch.action.admin.cluster.node.info.NodeInfo;
-import org.elasticsearch.action.admin.cluster.node.info.NodesInfoResponse;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
 import org.elasticsearch.index.Index;
 import org.elasticsearch.plugin.analysis.CocCocTokenizerPlugin;
 import org.elasticsearch.plugins.Plugin;
-import org.elasticsearch.plugins.PluginInfo;
 import org.elasticsearch.test.ESIntegTestCase;
 
 import java.io.IOException;
@@ -19,27 +14,13 @@ import java.util.Collection;
 import java.util.Collections;
 
 import static org.apache.lucene.analysis.BaseTokenStreamTestCase.assertTokenStreamContents;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.instanceOf;
 
 public class CocCocTokenizerPluginIntegrationTest extends ESIntegTestCase {
 
     @Override
     protected Collection<Class<? extends Plugin>> nodePlugins() {
         return Collections.singleton(CocCocTokenizerPlugin.class);
-    }
-
-    public void testLoadPlugin() throws Exception {
-        final NodesInfoResponse response = client().admin().cluster().prepareNodesInfo().setPlugins(true).get();
-        for (NodeInfo nodeInfo : response.getNodes()) {
-            boolean pluginFound = false;
-            for (PluginInfo pluginInfo : nodeInfo.getPlugins().getPluginInfos()) {
-                if (pluginInfo.getName().equals(CocCocTokenizerPlugin.class.getName())) {
-                    pluginFound = true;
-                    break;
-                }
-            }
-            assertThat(pluginFound, is(true));
-        }
     }
 
     public void testCocCocTokenizerPlugin() throws IOException {
@@ -76,10 +57,8 @@ public class CocCocTokenizerPluginIntegrationTest extends ESIntegTestCase {
     private TestAnalysis createTestAnalysis(final String jsonSource) throws IOException {
         Settings settings = Settings.builder()
                 .loadFromStream(jsonSource, CocCocTokenizerPluginIntegrationTest.class.getResourceAsStream(jsonSource), true)
-                .put(IndexMetaData.SETTING_VERSION_CREATED, Version.CURRENT)
                 .build();
         Settings nodeSettings = Settings.builder().put(Environment.PATH_HOME_SETTING.getKey(), createTempDir()).build();
         return createTestAnalysis(new Index("test", "_na_"), nodeSettings, settings, new CocCocTokenizerPlugin());
     }
-
 }
